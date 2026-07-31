@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class AuthService {
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -29,7 +32,9 @@ public class AuthService {
         user.setEmail(request.getEmail());
 
         // Later we will encrypt the password
-        user.setPassword(request.getPassword());
+        user.setPassword(
+                passwordEncoder.encode(request.getPassword())
+        );
 
         user.setCreatedAt(LocalDateTime.now());
 
