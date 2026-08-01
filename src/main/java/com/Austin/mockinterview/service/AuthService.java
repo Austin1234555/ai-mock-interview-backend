@@ -4,12 +4,14 @@ import com.Austin.mockinterview.dto.RegisterRequest;
 import com.Austin.mockinterview.dto.RegisterResponse;
 import com.Austin.mockinterview.entity.User;
 import com.Austin.mockinterview.repository.UserRepository;
+import com.Austin.mockinterview.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.Austin.mockinterview.dto.LoginRequest;
 import com.Austin.mockinterview.dto.LoginResponse;
 
 import java.time.LocalDateTime;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
@@ -19,6 +21,8 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public RegisterResponse register(RegisterRequest request) {
 
@@ -54,7 +58,10 @@ public class AuthService {
             throw new RuntimeException("Invalid Password");
         }
 
+        String token = jwtUtil.generateToken(user.getEmail());
+
         return new LoginResponse(
+                token,
                 "Login Successful",
                 user.getName(),
                 user.getEmail()
