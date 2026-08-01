@@ -6,7 +6,9 @@ import com.Austin.mockinterview.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import com.Austin.mockinterview.dto.LoginRequest;
+import com.Austin.mockinterview.dto.LoginResponse;
+import org.springframework.http.ResponseEntity;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -20,6 +22,14 @@ public class AuthController {
 
         return authService.register(request);
 
+    }
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(
+            @Valid @RequestBody LoginRequest request) {
+
+        LoginResponse response = authService.login(request);
+
+        return ResponseEntity.ok(response);
     }
 
 }

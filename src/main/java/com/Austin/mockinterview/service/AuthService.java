@@ -6,6 +6,8 @@ import com.Austin.mockinterview.entity.User;
 import com.Austin.mockinterview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.Austin.mockinterview.dto.LoginRequest;
+import com.Austin.mockinterview.dto.LoginResponse;
 
 import java.time.LocalDateTime;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,5 +44,20 @@ public class AuthService {
         userRepository.save(user);
 
         return new RegisterResponse("User Registered Successfully");
+    }
+    public LoginResponse login(LoginRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid Password");
+        }
+
+        return new LoginResponse(
+                "Login Successful",
+                user.getName(),
+                user.getEmail()
+        );
     }
 }
