@@ -6,12 +6,12 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "temp_users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class TempUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,16 @@ public class User {
     private String mobile;
 
     private String password;
+
+    private String otp;
+
+    private LocalDateTime otpExpiry;
+
+    private int resendCount = 0;
+
+    private LocalDateTime lastResendTime;
+
+    private LocalDateTime blockedUntil;   // for 24-hour block after 5 resends
 
     private LocalDateTime createdAt;
 }
