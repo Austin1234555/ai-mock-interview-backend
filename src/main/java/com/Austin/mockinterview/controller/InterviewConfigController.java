@@ -52,8 +52,7 @@ public class InterviewConfigController {
 //        InterviewConfig config = interviewConfigService.getConfig(id, userId);
 //        return ResponseEntity.ok(config);
 //    }
-
-
+    
     @PostMapping("/config")
     public ResponseEntity<InterviewConfigResponse> createConfig(
             @Valid @RequestBody CreateInterviewConfigRequest request,
